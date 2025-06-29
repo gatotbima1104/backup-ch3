@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RecommendationRecipeView: View {
-//    @StateObject private var viewModel = RecommendationRecipeViewModel()
+//     @StateObject private var viewModel = RecommendationRecipeViewModel()
     @State private var selectedRecipe: Recipe?
     @Binding var isLoading: Bool
     
@@ -26,6 +26,7 @@ struct RecommendationRecipeView: View {
         VStack(spacing: 16) {
             if isLoading {
                 loadingView
+                    .accessibilityLabel("Sedang memuat rekomendasi resep untuk Anda.")
             }
             else if cbResult.isEmpty {
                 VStack {
@@ -33,6 +34,8 @@ struct RecommendationRecipeView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 150, height: 150)
+                        .accessibilityLabel("Maskot KOKIKU")
+                    
                     Text("Rekomendasi masih kosong")
                         .font(.title2)
                         .foregroundStyle(Color(hex: "006E6D"))
@@ -41,6 +44,8 @@ struct RecommendationRecipeView: View {
                         .padding(.horizontal)
                         .frame(maxWidth: 350)
                 }
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("Rekomendasi masih kosong. Belum ada resep yang ditemukan untuk bahan-bahan yang Anda pilih.")
             } else {
                 ScrollView {
                     LazyVStack(spacing: 16) {
@@ -51,10 +56,15 @@ struct RecommendationRecipeView: View {
                                 .onTapGesture {
                                     selectedRecipe = recipe
                                 }
+                                .accessibilityElement(children: .combine)
+                                .accessibilityLabel("Resep: \(recipe.name)")
+                                .accessibilityHint("Ketuk dua kali untuk melihat detail resep.")
+                                .accessibilityAddTraits(.isButton)
                         }
                     }
                 }
                 .scrollIndicators(.hidden)
+                .accessibilityLabel("Daftar rekomendasi resep")
             }
         }
         .padding()
@@ -69,7 +79,7 @@ struct RecommendationRecipeView: View {
     private var loadingView: some View {
         VStack(spacing: 20) {
             // Skeleton recipe cards
-//            Text("Memuat Rekomendasi Resep...")
+//          Text("Memuat Rekomendasi Resep...")
             ScrollView {
                 LazyVStack(spacing: 20) {
                     ForEach(0..<5, id: \.self) { _ in
@@ -162,6 +172,8 @@ struct SkeletonRecipeCardView: View {
         .background(Color(.systemGray6)) // Slightly gray background for contrast
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.08), radius: 5, x: 0, y: 2)
+        // Menyembunyikan elemen skeleton dari VoiceOver karena tidak memberikan informasi berguna
+        .accessibilityHidden(true)
     }
 }
 

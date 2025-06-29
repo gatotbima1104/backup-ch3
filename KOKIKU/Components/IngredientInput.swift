@@ -13,7 +13,7 @@ struct IngredientInput: View {
     var storages: [String]
     var index: Int
     var onDelete: () -> Void
-    let allSuggestions: [String] = [    
+    let allSuggestions: [String] = [
         "Ayam", "Udang", "Ikan", "Sapi", "Bakso", "Telur", "Nasi", "Mie", "Tempe", "Tahu", "Daging", "Cumi", "Kepiting",
         "Jagung", "Sawi", "Wortel", "Tomat", "Kubis", "Kentang", "Brokoli", "Buncis", "Kacang Panjang", "Timun", "Tauge",
         "Bayam", "Kangkung", "Daun Singkong", "Terong", "Pare", "Labu Siam", "Kacang Merah", "Oyong",
@@ -31,6 +31,7 @@ struct IngredientInput: View {
                 Text("Bahan \(index + 1)")
                     .foregroundColor(Color(hex: "006E6D"))
                     .fontWeight(.semibold)
+                    .accessibilityAddTraits(.isHeader)
                 
                 Spacer()
                 // Button to delete card
@@ -47,6 +48,8 @@ struct IngredientInput: View {
                 }
                 .disabled(totalInput <= 1)
                 .buttonStyle(.plain)
+                .accessibilityLabel("Hapus bahan \(index + 1)")
+                .accessibilityHint(totalInput <= 1 ? "Tidak dapat menghapus, minimal harus ada satu bahan." : "Ketuk untuk menghapus formulir bahan ini.")
             }
             
             VStack {
@@ -61,6 +64,8 @@ struct IngredientInput: View {
                             .foregroundColor(.gray),
                         alignment: .bottom
                     )
+                    .accessibilityLabel("Nama bahan \(index + 1)")
+                    .accessibilityHint("Ketik nama bahan, saran akan muncul saat Anda mengetik.")
                     .onChange(of: ingredient.name) { value in
                         if value.isEmpty {
                             filteredSuggestions = []
@@ -79,19 +84,23 @@ struct IngredientInput: View {
                         VStack(alignment: .leading, spacing: 4) {
                             ForEach(filteredSuggestions, id: \.self) { suggestion in
                                 HStack {
-                                   Text(suggestion)
-                                       .padding(.vertical, 8)
-                                       .padding(.horizontal, 8)
-                                   Spacer()
-                               }
-                               .contentShape(Rectangle())
-                               .onTapGesture {
-                                   ingredient.name = suggestion
-                                   DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                                       filteredSuggestions = []
-                                       showSuggestion = false
-                                   }
-                               }
+                                    Text(suggestion)
+                                        .padding(.vertical, 8)
+                                        .padding(.horizontal, 8)
+                                    Spacer()
+                                }
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    ingredient.name = suggestion
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                                        filteredSuggestions = []
+                                        showSuggestion = false
+                                    }
+                                }
+                                .accessibilityElement(children: .combine)
+                                .accessibilityLabel(suggestion)
+                                .accessibilityAddTraits(.isButton)
+                                .accessibilityHint("Ketuk untuk memilih saran ini.")
                             }
                         }
                         .padding(.vertical, 4)
@@ -99,6 +108,7 @@ struct IngredientInput: View {
                     .frame(maxWidth: .infinity, maxHeight: 120)
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(4)
+                    .accessibilityLabel("Kotak saran bahan")
                 }
 
                 // DatePicker with bottom border
@@ -113,11 +123,9 @@ struct IngredientInput: View {
                                 .foregroundColor(.gray),
                             alignment: .bottom
                         )
-//                    Image(systemName: "calendar")
-//                        .font(.system(size: 24))
+                        .accessibilityLabel("Tanggal bahan disimpan")
                 }
                 
-
                 // Picker with bottom border
                 Menu {
                     Picker("Tempat Penyimpanan", selection: $ingredient.storage) {
@@ -141,6 +149,11 @@ struct IngredientInput: View {
                         alignment: .bottom
                     )
                 }
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Lokasi penyimpanan")
+                .accessibilityValue(ingredient.storage.isEmpty ? "Belum dipilih" : ingredient.storage)
+                .accessibilityHint("Ketuk untuk membuka pilihan lokasi penyimpanan.")
+                .accessibilityAddTraits(.isButton)
                 .padding(.top, 16)
                 .padding(.bottom, 8)
             }

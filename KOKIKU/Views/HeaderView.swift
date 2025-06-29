@@ -72,7 +72,7 @@ struct HeaderView: View {
                         .font(.title3)
                         .padding()
                         .foregroundStyle(.white)
-                        .background(selectedIngredientIDs.isEmpty ? Color.gray : Color(hex: "B81F00"))
+                        .background(selectedIngredientIDs.isEmpty ? Color.gray : Color(hex: "#AD1D00"))
                         .frame(width: 40, height: 40)
                         .cornerRadius(8)
                 }

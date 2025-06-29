@@ -50,16 +50,22 @@ struct FavoriteView: View {
                                 .onTapGesture {
                                     selectedRecipe = recipe
                                 }
+                                .accessibilityElement(children: .combine)
+                                .accessibilityLabel("Resep Favorit: \(recipe.name)")
+                                .accessibilityHint("Ketuk dua kali untuk melihat detail resep.")
+                                .accessibilityAddTraits(.isButton)
                         }
                     }
                 }
                 .scrollIndicators(.hidden)
+                .accessibilityLabel("Daftar resep favorit Anda")
             } else {
                 VStack {
                     Image("mascot")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 150, height: 150)
+                        .accessibilityLabel("Maskot KOKIKU")
                     
                     VStack(spacing: 32) {
                         Text("Kamu belum punya menu favorite")
@@ -69,6 +75,8 @@ struct FavoriteView: View {
                             .fontWeight(.bold)
                             .padding(.horizontal)
                             .frame(maxWidth: 350)
+                            .accessibilityElement(children: .combine)
+                            .accessibilityLabel("Kamu belum punya menu favorit. Silakan cari resep dan tambahkan ke favorit.")
 
                         // Button
                         Button(action: {
@@ -85,6 +93,8 @@ struct FavoriteView: View {
                             .background(Color(hex: "006E6D"))
                             .cornerRadius(8)
                         }
+                        .accessibilityLabel("Lihat Bahan")
+                        .accessibilityHint("Kembali ke halaman kulkas untuk mencari resep baru.")
                     }
                 }
             }

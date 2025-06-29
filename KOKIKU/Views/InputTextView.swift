@@ -35,6 +35,7 @@ struct InputTextView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 150, height: 150)
+                                .accessibilityLabel("Maskot MyQuickCook")
                             
                             VStack(spacing: 32) {
                                 Text("Kamu harus menambahkan minimal 1 bahan")
@@ -46,6 +47,9 @@ struct InputTextView: View {
                                     .frame(maxWidth: 350)
                             }
                         }
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("Anda belum menambahkan bahan apapun.")
+                        .accessibilityHint("Ketuk tombol tambah di pojok kanan atas untuk mulai mengisi bahan.")
                         .padding(.top, 150)
                         
                     } else {
@@ -61,6 +65,8 @@ struct InputTextView: View {
                                     },
                                     totalInput: inputViewModel.ingredientInputs.count
                                 )
+                                .accessibilityElement(children: .contain)
+                                .accessibilityLabel("Formulir bahan ke-\(index + 1)")
                                 .listRowInsets(EdgeInsets())
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 8)
@@ -75,6 +81,7 @@ struct InputTextView: View {
                 .scrollIndicators(.hidden)
                 .scrollContentBackground(.hidden)
                 .background(Color.clear)
+                .accessibilityLabel("Daftar formulir bahan")
                 
                 Spacer()
                 
@@ -98,6 +105,9 @@ struct InputTextView: View {
                         .cornerRadius(8)
                 }
                 .disabled(!inputViewModel.isFormValid || inputViewModel.ingredientInputs.isEmpty)
+                .accessibilityLabel("Simpan Bahan")
+                .accessibilityValue(inputViewModel.isFormValid && !inputViewModel.ingredientInputs.isEmpty ? "Aktif" : "Nonaktif")
+                .accessibilityHint(!inputViewModel.isFormValid || inputViewModel.ingredientInputs.isEmpty ? "Isi semua kolom bahan untuk mengaktifkan tombol ini." : "Menyimpan semua bahan yang telah diisi ke dalam kulkas.")
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .safeAreaPadding(.all)
@@ -117,6 +127,8 @@ struct InputTextView: View {
                             .frame(maxWidth: 40, maxHeight: 40)
                             .cornerRadius(8)
                     }
+                    .accessibilityLabel("Tambah formulir bahan")
+                    .accessibilityHint("Menambahkan satu baris formulir baru untuk diisi.")
                 }
             }
         }

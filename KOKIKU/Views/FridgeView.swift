@@ -59,6 +59,10 @@ struct FridgeView: View {
             // Main content conditional
             if ingredients.isEmpty {
                 FridgeEmptyView(fridgeViewModel: fridgeViewModel)
+                    // Aksesibilitas untuk tampilan kosong
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("Kulkas Anda kosong.")
+                    .accessibilityHint("Ketuk tombol tambah untuk menambahkan bahan baru.")
             } else {
                 ingredientListView
             }
@@ -111,6 +115,8 @@ struct FridgeView: View {
                 Text("Rekomendasi")
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(Color(hex: "006E6D"))
+                    .accessibilityAddTraits(.isHeader)
+                    .accessibilityLabel("Hasil Rekomendasi")
             }
         }
     }
@@ -122,6 +128,8 @@ struct FridgeView: View {
                     Text("Favorite Kamu")
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(Color(hex: "006E6D"))
+                        .accessibilityAddTraits(.isHeader)
+                        .accessibilityLabel("Favorit Kamu")
                 }
             }
     }
@@ -133,6 +141,8 @@ struct FridgeView: View {
                     Text("Tambah Bahan")
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(Color(hex: "006E6D"))
+                        .accessibilityAddTraits(.isHeader)
+                        .accessibilityLabel("Tambah Bahan")
                 }
             }
     }
@@ -144,6 +154,8 @@ struct FridgeView: View {
                     Text("Tambah Bahan")
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(Color(hex: "006E6D"))
+                        .accessibilityAddTraits(.isHeader)
+                        .accessibilityLabel("Tambah Bahan")
                 }
             }
     }
@@ -165,35 +177,22 @@ struct FridgeView: View {
         )
         .presentationDetents([.fraction(0.4)])
         .presentationDragIndicator(.visible)
+        .accessibilityLabel("Pilihan Input")
+        .accessibilityHint("Pilih untuk menambahkan bahan melalui teks atau kamera.")
     }
     
     @ViewBuilder
     private func createToastView() -> some View {
         if fridgeViewModel.showDeletedToast {
             PopupAction(text: "Bahan telah dihapus")
+                .accessibilityLabel("Bahan telah dihapus")
+                .accessibilityHint("Memberitahukan bahwa bahan yang dipilih telah dihapus.")
         }
     }
     
     // MARK: - Ingredient List View
     private var ingredientListView: some View {
         VStack(spacing: 16) {
-            
-//            Button {
-//                let content = UNMutableNotificationContent()
-//                content.title = "Hello, world!"
-//                content.subtitle = "This is a test notification."
-//                content.sound = UNNotificationSound.default
-//                
-//                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-//                let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-//                
-//                UNUserNotificationCenter.current().add(request)
-//                
-//                
-//            } label: {
-//                Text("Schedule notif")
-//            }
-
             
             // Header
             HeaderView(
@@ -208,11 +207,16 @@ struct FridgeView: View {
                 }
             )
             .sensoryFeedback(.success, trigger: hapticTrigger)
+            .accessibilityElement(children: .contain)
+            .accessibilityLabel("Kontrol Kulkas")
+            .accessibilityHint("Berisi pilihan pencarian, favorit, tambah, dan hapus.")
+
             
             // Scrollable ingredient list
             ScrollView {
                 ingredientCards
             }
+            .accessibilityLabel("Daftar bahan-bahan Anda")
             
             // Bottom section with button
             bottomActionSection
@@ -227,6 +231,11 @@ struct FridgeView: View {
                     ingredient: item,
                     selectedIngredients: $fridgeViewModel.selectedIngredientIDs
                 )
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("\(item.name), disimpan di \(item.storage).")
+                .accessibilityValue(fridgeViewModel.selectedIngredientIDs.contains(item.id) ? "Terpilih" : "Tidak terpilih")
+                .accessibilityHint("Ketuk dua kali untuk memilih atau batal memilih.")
+                .accessibilityAddTraits(.isButton)
             }
         }
         .frame(maxWidth: .infinity)
@@ -236,7 +245,7 @@ struct FridgeView: View {
     // MARK: - Bottom Action Section
     private var bottomActionSection: some View {
         VStack(alignment: .leading) {
-            // Selection information text
+            // Teks informasi pilihan
             let selectionText = !fridgeViewModel.selectedIngredientIDs.isEmpty
             ? "\(fridgeViewModel.selectedIngredientIDs.count) Bahan Terpilih"
             : "*Pilih bahan untuk mendapatkan rekomendasi"
@@ -244,13 +253,19 @@ struct FridgeView: View {
             Text(selectionText)
                 .font(.footnote)
                 .multilineTextAlignment(.leading)
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Ringkasan Pilihan")
+                .accessibilityValue(selectionText)
             
-            // Search button
+            // Tombol Cari
             ButtonPrimary(
                 isDisabled: fridgeViewModel.selectedIngredientIDs.isEmpty,
                 action: handleSearchButtonTap,
                 title: "Cari Resep"
             )
+            .accessibilityLabel("Cari Resep")
+            .accessibilityValue(fridgeViewModel.selectedIngredientIDs.isEmpty ? "Nonaktif" : "Aktif")
+            .accessibilityHint(fridgeViewModel.selectedIngredientIDs.isEmpty ? "Pilih satu atau lebih bahan untuk mengaktifkan tombol ini." : "Mencari resep berdasarkan bahan yang Anda pilih.")
         }
         .padding(.leading, 4)
         .multilineTextAlignment(.leading)
