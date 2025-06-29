@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "telur_keju_leleh_ala_debm_menu_diet_menu_sarapan_diet_debm.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

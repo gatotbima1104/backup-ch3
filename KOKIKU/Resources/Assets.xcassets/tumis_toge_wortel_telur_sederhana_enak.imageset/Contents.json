@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "tumis_toge_wortel_telur_sederhana_enak.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

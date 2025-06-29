@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "tumis_kol_telur_bakso_ala_anak_kos.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

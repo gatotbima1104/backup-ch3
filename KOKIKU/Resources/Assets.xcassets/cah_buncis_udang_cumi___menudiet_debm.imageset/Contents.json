@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "cah_buncis_udang_cumi___menudiet_debm.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

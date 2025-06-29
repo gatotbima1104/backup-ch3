@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "ikan_tongkol_pindang_bumbu_rica_rica_daun_jeruk.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

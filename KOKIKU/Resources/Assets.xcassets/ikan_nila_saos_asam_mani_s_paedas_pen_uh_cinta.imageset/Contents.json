@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "ikan_nila_saos_asam_mani_s_paedas_pen_uh_cinta.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
