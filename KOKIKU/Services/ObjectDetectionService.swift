@@ -18,7 +18,7 @@ class ObjectDetectionService {
     // Init model
     init() {
         do {
-            let mlModel = try IngredientsDetector(configuration: MLModelConfiguration()).model
+            let mlModel = try ObjectDetectorUpdated2(configuration: MLModelConfiguration()).model
             model = try VNCoreMLModel(for: mlModel)
         } catch {
             print("Failed to load model: \(error)")
@@ -40,17 +40,21 @@ class ObjectDetectionService {
         
         // Make request to model
         let request = VNCoreMLRequest(model: model) { request, error in
-            var detectedObjects: [String] = []
+            var detectedObjects: Set<String> = []  // Use a Set to avoid duplicates
+            let confidenceThreshold: VNConfidence = 0.1
+            
             if let results = request.results as? [VNRecognizedObjectObservation] {
                 for result in results {
-                    if let topLabel = result.labels.first {
-                        detectedObjects.append(topLabel.identifier)
+                    for label in result.labels {
+                        if label.confidence >= confidenceThreshold {
+                            detectedObjects.insert(label.identifier)
+                        }
                     }
                 }
             }
             
             DispatchQueue.main.async {
-                completion(detectedObjects)
+                completion(Array(detectedObjects))
             }
         }
         
